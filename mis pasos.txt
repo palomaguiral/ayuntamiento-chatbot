@@ -1,0 +1,38 @@
+- Instalar POETRY con curl
+- Crear nuevo proyecto con Poestry: poetry new ayuntamiento_chatbot
+                                    cd ayuntamiento_chatbot
+- Cuando vuelvas a trabajar en el proyecto, necesitas activar el entorno virtual de Poetry antes de ejecutar cualquier comando.
+
+
+############
+
+- Creación de la API con FastAPI -> main.py
+
+
+############
+
+- Configuración de SQLAlchemy y Base de Datos -> database.py
+
+###########
+
+
+- Configuración de Alembic para Migraciones
+    * Inicializar Alembic: alembic init migrations   - Se crea alembic.ini y la carpeta migrations/
+    * Configurar alembic.ini para que use DATABASE_URL de database.py
+        -Indicamos a los archivos alembic.ini y migrations/env.py que tiene que usar la base de datos según está en las vbles de entorno.
+    * Crear y aplicar las migraciones
+        alembic revision --autogenerate -m "Initial migration"
+
+
+
+############
+
+- Crear la base de datos
+    *Desde pgAdmin 
+    *Con los comandos en psql:  CREATE DATABASE chatbot_db;
+                                CREATE USER chatbot_user WITH ENCRYPTED PASSWORD 'chatbot_password';
+                                GRANT ALL PRIVILEGES ON DATABASE chatbot_db TO chatbot_user;
+
+
+############
+- Integración con LangGraph

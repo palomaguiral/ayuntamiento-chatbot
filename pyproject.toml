@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ayuntamiento-chatbot"
+version = "0.1.0"
+description = ""
+authors = ["palomaguiral <pguiort@gmail.com>"]
+readme = "README.md"
+packages = [{include = "ayuntamiento_chatbot"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+fastapi = "^0.115.11"
+uvicorn = "^0.34.0"
+sqlalchemy = "^2.0.38"
+alembic = "^1.15.1"
+psycopg2 = "^2.9.10"
+langchain = "^0.3.20"
+langgraph = "^0.3.5"
+pydantic = "^2.10.6"
+python-dotenv = "^1.0.1"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
