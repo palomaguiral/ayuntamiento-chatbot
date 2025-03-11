@@ -28,7 +28,7 @@ def get_db():
         db.close()
 
 @app.get("/actualizar/")
-def actualizar_bd(url: str):
+def actualizar_bd(url: str): #https://www.valencia.es
     """Obtiene contenido de una web y lo almacena en la base de datos vectorial."""
     documentos = obtener_contenido_web(url)
     almacenar_documentos(documentos)

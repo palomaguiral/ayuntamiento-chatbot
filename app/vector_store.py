@@ -1,5 +1,10 @@
 """
-para gestionar las bÃºsquedas.
+vector_store.py
+--
+
+Permite gestionar la búsqueda de información relevante utilizando un almacén vectorial 
+basado en el modelo de embeddings de Hugging Face. 
+Utiliza la librería langchain para manejar embeddings y almacenamiento vectorial con Chroma.
 """
 
 from langchain.vectorstores import Chroma
@@ -26,4 +31,4 @@ def almacenar_documentos(documentos):
 def buscar_respuesta(pregunta: str):
     """Busca en la base de datos vectorial la informaciÃ³n mÃ¡s relevante."""
     resultados = vector_db.similarity_search(pregunta, k=3)  # Busca los 3 mejores resultados
-    return resultados
+    return resultados #Es una lista
