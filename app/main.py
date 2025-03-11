@@ -13,7 +13,7 @@ from app import crud, models, schemas
 from app.database import SessionLocal, engine
 from app.langgraph_utils import generate_response
 from app.web_scraper import obtener_contenido_web
-from app.vector_store import almacenar_documento
+from app.vector_store import almacenar_documentos
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -30,8 +30,8 @@ def get_db():
 @app.get("/actualizar/")
 def actualizar_bd(url: str):
     """Obtiene contenido de una web y lo almacena en la base de datos vectorial."""
-    texto = obtener_contenido_web(url)
-    almacenar_documento(texto)
+    documentos = obtener_contenido_web(url)
+    almacenar_documentos(documentos)
     return {"mensaje": "Información almacenada con éxito."}
 
 @app.post("/chat/", response_model=schemas.ChatResponse)
