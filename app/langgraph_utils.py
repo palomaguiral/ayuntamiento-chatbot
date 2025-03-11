@@ -6,10 +6,12 @@ Integra LangGraph para generar respuestas automáticas.
 - Implementa un grafo simple para devolver respuestas usando LangGraph.
 - Se conecta con `main.py` para generar respuestas a los mensajes.
 """
-
 from langgraph.graph import Graph
-from langchain.chat_models import ChatOpenAI
+from langchain_ollama import OllamaLLM
 from app.vector_store import buscar_respuesta
+
+# Configurar el modelo Mistral con Ollama
+modelo = OllamaLLM(model="mistral")
 
 def limpiar_texto(texto):
     """Limpia el texto del usuario."""
@@ -22,22 +24,22 @@ def buscar_informacion(texto):
     return contexto if contexto else "No encontré información relevante."
 
 def generar_respuesta(contexto, pregunta):
-    """Usa GPT para generar una respuesta basada en el contexto recuperado."""
-    modelo = ChatOpenAI(model_name="gpt-4", temperature=0)
+    """Usa LangChain con Mistral (Ollama) para generar una respuesta."""
     
     prompt = f"""
     Responde la siguiente pregunta con base en la información proporcionada:
-    
+
     Pregunta: {pregunta}
-    
+
     Información relevante:
     {contexto}
-    
+
     Si la información no es suficiente, responde "No encontré información relevante en la web del ayuntamiento."
     """
-    
-    respuesta = modelo.predict(prompt)
+
+    respuesta = modelo.invoke(prompt)
     return respuesta
+
 
 def generate_response(message: str) -> str:
     """Genera una respuesta usando LangGraph con pasos encadenados."""
