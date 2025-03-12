@@ -12,10 +12,7 @@ from pydantic import BaseModel
 from datetime import datetime
 
 class ChatRequest(BaseModel):
-    message: str
+    message: str  # La API debe tomar como input un mensaje de texto.
 
 class ChatResponse(BaseModel):
-    id: int
-    user_message: str
-    bot_response: str
-    timestamp: datetime
+    response: str  # La API debe devolver una respuesta en texto.
