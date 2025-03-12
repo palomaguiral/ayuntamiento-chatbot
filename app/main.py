@@ -8,7 +8,7 @@ Define la API con FastAPI.
 - Usa SQLAlchemy para registrar las conversaciones en la base de datos.
 - Usa LangGraph para generar respuestas automáticas.
 
-Ejecución: python -m uvicorn app.main:app --reload
+Ejecución: uvicorn app.main:app --reload
 """
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
@@ -47,5 +47,5 @@ def actualizar_bd(url: str): #https://www.valencia.es
 @app.post("/chat/", response_model=schemas.ChatResponse)
 def chat(request: schemas.ChatRequest, db: Session = Depends(get_db)):
     response_text = generate_response(request.message)
-    return response_text
+    return schemas.ChatResponse(response=response_text) #convertir el string en un objeto ChatResponse antes de devolverlo en el endpoint
     #return crud.save_chat(db, request.message, response_text)
