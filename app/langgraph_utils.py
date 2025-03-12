@@ -28,6 +28,7 @@ def buscar_informacion(texto):
     resultados = buscar_respuesta(texto) #Lista con los 3 chunks más relevantes
     
     if not resultados: #No hay contenido relevante con respecto a la pregunta del usuario
+        print({"contexto": "No encontré información relevante.", "pregunta": texto, "fuentes": []})
         return {"contexto": "No encontré información relevante.", "pregunta": texto, "fuentes": []}
 
     contexto = " ".join([r.page_content for r in resultados])
@@ -43,6 +44,12 @@ def generar_respuesta(inputs): #inputs -> contexto y pregunta
     contexto = inputs["contexto"]
     pregunta = inputs["pregunta"]
     fuentes = inputs["fuentes"]
+
+    # 🚨 Si el contexto es "No encontré información relevante.", devolvemos eso directamente (= Menos llamadas innecesarias al modelo )
+    if contexto == "No encontré información relevante.":
+        print("🚀 No se invoca al modelo porque no hay información relevante.")
+        print("No encontré información relevante.")
+        return "No encontré información relevante."
     
     prompt = f"""
     Responde la siguiente pregunta con base en la información proporcionada:
@@ -74,12 +81,17 @@ def generate_response(message: str) -> str: #Ej: ¿Cuándo tiene lugar el taller
     graph.add_node("buscar", RunnableLambda(buscar_informacion)) 
     graph.add_node("responder", RunnableLambda(generar_respuesta)) 
 
-    graph.set_entry_point("limpiar") #output: pregunta limpia
-    graph.add_edge("limpiar", "buscar") #output: diccionario con 'context' y 'pregunta'
-    graph.add_edge("buscar", "responder") #output: respuesta
+    graph.set_entry_point("limpiar") #output: pregunta limpia (Str)
+    graph.add_edge("limpiar", "buscar") #output: diccionario con 'context', 'pregunta' y 'fuentes'
+    graph.add_edge("buscar", "responder") #output: respuesta (Str)
+
+    graph.set_finish_point("responder") #que la salida del grafo sea el nodo "responder"
 
     runnable = graph.compile()  # Compila el gráfico para ejecutarlo
-    return runnable.invoke(message)  # Ejecuta el gráfico con un input    
+    resultado = runnable.invoke(message)
+    print(f"🔴 Resultado final del grafo: {resultado}")
+
+    return resultado  # Ejecuta el gráfico con un input    
 
 
 
