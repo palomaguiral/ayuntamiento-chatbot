@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from langchain_community.document_loaders import WebBaseLoader
 
 """
@@ -38,7 +40,7 @@ from langchain.schema import Document
 # Configurar USER_AGENT para evitar bloqueos
 os.environ["USER_AGENT"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 
-def get_sitemap_urls(sitemap_url, limit=50):
+def get_sitemap_urls(sitemap_url, limit=None):
     """Obtiene las URLs del sitemap.xml si está disponible."""
     try:
         response = requests.get(sitemap_url, timeout=10)
@@ -49,7 +51,7 @@ def get_sitemap_urls(sitemap_url, limit=50):
         namespace = {"ns": "http://www.sitemaps.org/schemas/sitemap/0.9"}
         urls = [elem.text for elem in root.findall(".//ns:loc", namespace)]
         
-        return urls[:limit]  # Limitar el número de URLs a procesar
+        return urls if limit is None else urls[:limit]  # Devuelve todas si limit es None, sino limita el número de URLs a procesar
     except Exception as e:
         print(f"⚠️ No se encontró sitemap.xml o hubo un error: {e}")
         return None
@@ -70,13 +72,13 @@ def extract_text_from_url(url):
 
         # Obtener texto limpio
         text = soup.get_text(separator=" ", strip=True)
-        return text[:5000]  # Limitar a 5000 caracteres para evitar respuestas muy largas
+        return text  # 'text[:5000]' -> Limitar a 5000 caracteres para evitar respuestas muy largas
     
     except Exception as e:
         print(f"❌ Error al procesar {url}: {e}")
         return None
 
-def obtener_contenido_web(url: str, limit=50):
+def obtener_contenido_web(url: str, limit=None):
     """Scrapea contenido de una web usando sitemap si existe, 
        o extrae enlaces manualmente si no lo hay.
     """

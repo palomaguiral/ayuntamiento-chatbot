@@ -1,14 +1,17 @@
+# -*- coding: utf-8 -*-
 """
 vector_store.py
 --
 
-Permite gestionar la búsqueda de información relevante utilizando un almacén vectorial 
+Permite gestionar la bÃºsqueda de informaciÃ³n relevante utilizando un almacÃ©n vectorial 
 basado en el modelo de embeddings de Hugging Face. 
-Utiliza la librería langchain para manejar embeddings y almacenamiento vectorial con Chroma.
+Utiliza la librerÃ­a langchain para manejar embeddings y almacenamiento vectorial con Chroma.
 """
 
-from langchain.vectorstores import Chroma
-from langchain.embeddings import HuggingFaceEmbeddings
+#from langchain.vectorstores import Chroma
+from langchain_chroma import Chroma
+#from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # Cargar modelo de embeddings desde Hugging Face (No me funcionan los de Ollama con from langchain_ollama.embeddings import OllamaEmbeddings)

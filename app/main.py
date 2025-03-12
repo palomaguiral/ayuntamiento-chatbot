@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """
 main.py
 -------
@@ -6,6 +8,8 @@ Define la API con FastAPI.
 - Contiene el endpoint `/chat/` para recibir un mensaje y devolver una respuesta.
 - Usa SQLAlchemy para registrar las conversaciones en la base de datos.
 - Usa LangGraph para generar respuestas automáticas.
+
+Ejecución: python -m uvicorn app.main:app --reload
 """
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
@@ -15,7 +19,14 @@ from app.langgraph_utils import generate_response
 from app.web_scraper import obtener_contenido_web
 from app.vector_store import almacenar_documentos
 
-models.Base.metadata.create_all(bind=engine)
+#-----------------------------------------------------------------------------------------------
+#models.Base.metadata.create_all(bind=engine) #crea las tablas en la base de datos si no existen.
+"""
+Esta línea no maneja cambios en la base de datos después de que la tabla se haya creado. 
+Si agregas una nueva columna en el futuro, no se actualizará automáticamente. 
+Por eso, Alembic es una mejor opción para gestionar cambios.
+"""
+#-----------------------------------------------------------------------------------------------
 
 app = FastAPI()
 
@@ -37,4 +48,5 @@ def actualizar_bd(url: str): #https://www.valencia.es
 @app.post("/chat/", response_model=schemas.ChatResponse)
 def chat(request: schemas.ChatRequest, db: Session = Depends(get_db)):
     response_text = generate_response(request.message)
-    return crud.save_chat(db, request.message, response_text)
+    return response_text
+    #return crud.save_chat(db, request.message, response_text)

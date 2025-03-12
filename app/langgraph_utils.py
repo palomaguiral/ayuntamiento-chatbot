@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 langgraph_utils.py
 ------------------
@@ -25,9 +26,15 @@ def buscar_informacion(texto):
     print('buscando chunks similares...')
     """Busca fragmentos relevantes en la base de datos vectorial."""
     resultados = buscar_respuesta(texto) #Lista con los 3 chunks más relevantes
+    
+    if not resultados: #No hay contenido relevante con respecto a la pregunta del usuario
+        return {"contexto": "No encontré información relevante.", "pregunta": texto, "fuentes": []}
+
     contexto = " ".join([r.page_content for r in resultados])
-    print({"contexto": contexto if contexto else "No encontré información relevante.", "pregunta": texto})
-    return {"contexto": contexto if contexto else "No encontré información relevante.", "pregunta": texto} #Para pasarle tanto el contexto como la pregunta al siguiente nodo.
+    fuentes = [r.metadata.get("source", "Fuente desconocida") for r in resultados]
+    
+    print({"contexto": contexto, "pregunta": texto, "fuentes": fuentes})
+    return {"contexto": contexto, "pregunta": texto, "fuentes": fuentes}  #Para pasarle tanto el contexto como la pregunta al siguiente nodo.
 
 def generar_respuesta(inputs): #inputs -> contexto y pregunta
     print('generando respuesta con IA...')
@@ -35,6 +42,7 @@ def generar_respuesta(inputs): #inputs -> contexto y pregunta
     
     contexto = inputs["contexto"]
     pregunta = inputs["pregunta"]
+    fuentes = inputs["fuentes"]
     
     prompt = f"""
     Responde la siguiente pregunta con base en la información proporcionada:
@@ -48,6 +56,12 @@ def generar_respuesta(inputs): #inputs -> contexto y pregunta
     """
 
     respuesta = modelo.invoke(prompt)
+    
+    # Agregar fuentes al final de la respuesta
+    if fuentes:
+        respuesta += "\n\nFuentes:\n" + "\n".join(f"- {fuente}" for fuente in set(fuentes))
+
+
     print(respuesta)
     return respuesta
 
