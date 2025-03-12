@@ -13,7 +13,7 @@ Ejecución: uvicorn app.main:app --reload
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from app import crud, models, schemas
-from app.database import SessionLocal, engine
+from app.database import SessionLocal, engine, run_migrations
 from app.langgraph_utils import generate_response
 from app.web_scraper import obtener_contenido_web
 from app.vector_store import almacenar_documentos
@@ -26,6 +26,9 @@ Si agregas una nueva columna en el futuro, no se actualizará automáticamente.
 Por eso, Alembic es una mejor opción para gestionar cambios.
 """
 #-----------------------------------------------------------------------------------------------
+# Ejecutar migraciones antes de iniciar la API
+run_migrations()
+
 
 app = FastAPI()
 
