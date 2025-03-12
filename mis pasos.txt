@@ -3,6 +3,21 @@
                                     cd ayuntamiento_chatbot
 - Cuando vuelvas a trabajar en el proyecto, necesitas activar el entorno virtual de Poetry antes de ejecutar cualquier comando.
 
+· poetry.lock: Se actualiza automáticamente cada vez que ejecutas poetry install o poetry update, asegurando que todas las dependencias se instalen con versiones específicas
+· Si solo ejecutas poetry update, pyproject.toml se mantiene igual, pero poetry.lock se actualiza con las versiones más recientes de las dependencias permitidas por las restricciones en pyproject.toml.
+· pyproject.toml: Define las dependencias del proyecto, pero solo se actualiza si manualmente agregas, quitas o cambias versiones de paquetes con comandos.
+
+- ✅ Para asegurarte de que usas Poetry en lugar de Conda, ejecuta poetry shell antes de iniciar la app.
+
+
+1. Para no agregar las dependencias tú manualmente -> Usar pipreqs y luego importarlo a Poetry
+    Si no tienes un requirements.txt, pero quieres generarlo automáticamente basado en los imports de tu código:
+        pip install pipreqs
+        pipreqs . --force
+        poetry add $(cat requirements.txt)
+2. Finalmente, instala todas las dependencias en Poetry
+poetry lock --no-update
+poetry install
 
 ############
 
