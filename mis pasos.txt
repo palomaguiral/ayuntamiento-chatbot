@@ -64,6 +64,7 @@ poetry install
 - Guardar en la BD Chroma los embeddings de los textos scrapeados
 - Función para encontrar los fragmentos más similares a una pregunta de entre los guardados en la BD con similarity_search.
 
+- Ver Chroma en interfaz con el programa DB Browser for SQLite
 ############
 - A partir de los documentos más relacionados con la pregunta del usuario, formatear la respuesta con un modelos de IA
 (from langchain_ollama import OllamaLLM) para devolverle la respuetsa al usuario.
