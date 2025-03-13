@@ -2,19 +2,19 @@
 
 ## Descripción
 
-Este proyecto consiste en una API desarrollada con **FastAPI** que responde a mensajes de texto de usuarios de una página web de un ayuntamiento. La API almacena las conversaciones en una base de datos y genera respuestas utilizando **LangGraph**.
+API desarrollada con **FastAPI** que responde a mensajes de texto de usuarios de una página web de un ayuntamiento. La API almacena las conversaciones en una base de datos y genera respuestas utilizando **LangGraph**.
 
-## Tecnologías Utilizadas
+## Tecnologías
 
 - **FastAPI**: Para la creación de la API REST.
-- **SQLAlchemy**: Para la interacción con la base de datos.
+- **SQLAlchemy**: Para la interacción con la base de datos que almacena las conversaciones.
 - **Alembic**: Para gestionar migraciones de la base de datos.
 - **PostgreSQL**: Base de datos relacional utilizada.
 - **LangGraph**: Para generar respuestas automáticas basadas en datos almacenados.
 - **ChromaDB**: Para el almacenamiento y búsqueda de embeddings.
 - **Poetry**: Para la gestión de dependencias.
 - **Docker & Docker Compose**: Para la contenedorización de la aplicación.
-- **BeautifulSoup4**: Para realizar web scraping de información relevante.
+- **BeautifulSoup4**: Para realizar web scraping de la web.
 
 ---
 
@@ -29,7 +29,7 @@ cd ayuntamiento-chatbot
 
 ### 2. Configurar entorno virtual y dependencias
 
-Asegúrate de tener **Poetry** instalado. Luego ejecuta:
+Con **Poetry** instalado, ejecuta:
 
 ```bash
 poetry install
@@ -45,7 +45,7 @@ DATABASE_URL=postgresql://postgres:postgres@db:5432/ayuntamientochatbot
 
 ### 4. Aplicar migraciones de base de datos
 
-Ejecuta las migraciones para crear la estructura de la base de datos:
+Ejecutar las migraciones para crear la estructura de la base de datos:
 
 ```bash
 poetry run alembic upgrade head
@@ -116,10 +116,10 @@ Descarga y almacena contenido web relevante en la base de datos vectorial.
 ```
 ├── app/
 │   ├── main.py          # Punto de entrada de la API
-│   ├── crud.py          # Funciones para interactuar con la base de datos
+│   ├── crud.py          # Para interactuar con la base de datos y guardar las conversaciones
 │   ├── database.py      # Configuración de la base de datos
 │   ├── dependencies.py  # Dependencias comunes
-│   ├── langgraph_utils.py  # Generación de respuestas con LangGraph
+│   ├── langgraph_utils.py  # Generación de respuestas con LanChain y LangGraph
 │   ├── models.py        # Definición de modelos SQLAlchemy
 │   ├── schemas.py       # Esquemas de validación con Pydantic
 │   ├── vector_store.py  # Gestión del almacén vectorial con embeddings
@@ -141,7 +141,3 @@ Descarga y almacena contenido web relevante en la base de datos vectorial.
 - **Web Scraping**: Se extrae información de sitios web de ayuntamientos usando **BeautifulSoup4** y se almacena en ChromaDB para futuras consultas.
 
 ---
-
-## Autor
-
-Desarrollado por **[Tu Nombre]** para la prueba técnica de Python AI Developer.
