@@ -1,23 +1,28 @@
-# Imagen base de Python
+# Usa Python 3.9 como base
 FROM python:3.9
 
-# Establecer el directorio de trabajo dentro del contenedor
+# Define el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copiar los archivos de Poetry primero para aprovechar la caché de Docker
+# Copia los archivos de dependencias antes de instalar
 COPY pyproject.toml poetry.lock ./
 
-# Instalar Poetry y las dependencias
-RUN pip install --no-cache-dir poetry && poetry install --no-root
+# Instala Poetry sin usar cache (+evita que Poetry cree entornos virtuales dentro de Docker, ya que el contenedor en sí ya es un entorno aislado) (+ evitar problemas de timeout)
+RUN pip install --no-cache-dir poetry \
+    && poetry config virtualenvs.create false \
+    && poetry config installer.max-workers 1
 
-# Instala psycopg2-binary para conectar con PostgreSQL
-RUN poetry run pip install psycopg2-binary
+# Evita la instalación de paquetes CUDA en torch
+RUN poetry run pip install --no-cache-dir --extra-index-url https://download.pytorch.org/whl/cpu torch torchvision torchaudio
 
-# Copiar todo el código fuente del proyecto al contenedor
+# Instala las dependencias del proyecto
+RUN poetry install --no-root --no-cache --no-interaction
+
+# Copia el resto de los archivos del proyecto
 COPY . .
 
-# Exponer el puerto en el que correrá la API
+# Expone el puerto 8000
 EXPOSE 8000
 
-# Comando para ejecutar la API cuando el contenedor se inicie
+# Comando para ejecutar la API
 CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
