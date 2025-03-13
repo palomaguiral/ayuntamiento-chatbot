@@ -134,6 +134,28 @@ Descarga y almacena contenido web relevante en la base de datos vectorial.
 
 ---
 
+## Explicación archivos en el directorio raíz
+
+### `alembic.ini`
+- Archivo de configuración de **Alembic** para gestionar migraciones de base de datos.
+
+### `/migrations/`
+- Contiene los scripts de migraciones generados por Alembic para manejar cambios en la base de datos.
+
+### `docker-compose.yml`
+- Define los servicios para **Docker**, incluyendo la API y la base de datos **PostgreSQL**.
+
+### `Dockerfile`
+- Define cómo se debe construir la imagen de **Docker** para la API.
+
+### `pyproject.toml`
+- Archivo de configuración de **Poetry**, que especifica las dependencias del proyecto.
+
+### `poetry.lock`
+- Archivo de **Poetry** que bloquea las versiones exactas de las dependencias instaladas.
+
+---
+
 ## Notas Técnicas
 
 - **Almacenamiento de conversaciones**: Los mensajes del usuario y las respuestas del chatbot se guardan en la tabla `chat_messages` de PostgreSQL.
