@@ -59,6 +59,6 @@ El archivo principal que gestiona las solicitudes HTTP y la lógica de la API.
 ### `main.py`
 - Define la API utilizando **FastAPI**.
 - Endpoint `/chat/`: recibe mensajes y devuelve respuestas generadas por el chatbot. Además, registra las conversaciones en la base de datos utilizando **SQLAlchemy**.
-- Endpoint `/actualizar/`: que permite extraer y almacenar nueva información de una página web en la base de datos vectorial.
+- Endpoint `/actualizar/`: que permite extraer y almacenar nueva información de una página web (por ejemplo: https://www.valencia.es) en la base de datos vectorial.
 
 ---

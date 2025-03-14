@@ -40,10 +40,12 @@ def test_chat_endpoint():
 
 def test_generate_response():
     message = "¿Cuál es el horario del ayuntamiento?"
+    print('ejecuto la función...')
     response = generate_response(message)
+    print(response)
     assert isinstance(response, str)
     assert len(response) > 0
-    print(response)
+    
 
 # --- PRUEBAS DE BASE DE DATOS ---
 
