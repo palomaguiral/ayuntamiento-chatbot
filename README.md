@@ -91,7 +91,7 @@ docker-compose down
 
 ```json
 {
-    "message": "¿Cuáles son los eventos de esta semana?"
+    "message": "¿Cuándo tiene lugar el Taller de Circo?"
 }
 ```
 
@@ -99,7 +99,7 @@ docker-compose down
 
 ```json
 {
-    "response": "El evento más cercano es el Taller de Circo el 15 de marzo."
+    "response": "El Taller de Circo tiene lugar los Lunes a las 18:30h."
 }
 ```
 
