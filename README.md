@@ -156,6 +156,21 @@ Descarga y almacena contenido web relevante en la base de datos vectorial.
 
 ---
 
+# Acceder y ver el contenido de la base de datos PostgreSQL con las conversaciones
+
+## 1️⃣ Entrar al contenedor de PostgreSQL
+Ejecuta este comando en la terminal:
+```sh
+docker exec -it ayuntamiento_db psql -U postgres -d ayuntamientochatbot
+```
+
+## Ver todas las filas de la tabla chat_messages
+```sh 
+SELECT * FROM chat_messages;
+```
+
+
+---
 ## Notas Técnicas
 
 - **Almacenamiento de conversaciones**: Los mensajes del usuario y las respuestas del chatbot se guardan en la tabla `chat_messages` de PostgreSQL.
