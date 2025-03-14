@@ -62,7 +62,13 @@ def generar_respuesta(inputs): #inputs -> contexto y pregunta
 
     respuesta = modelo.invoke(prompt)
 
-    print(respuesta)
+    try:
+        respuesta = modelo.invoke(prompt)
+        print(f"✅ Respuesta generada: {respuesta}")
+    except Exception as e:
+        print(f"❌ Error al generar respuesta con IA: {e}")
+        respuesta = "Error al procesar la respuesta"
+
     return respuesta
 
 
@@ -70,16 +76,19 @@ def generate_response(message: str) -> str: #Ej: ¿Cuándo tiene lugar el taller
     """Genera una respuesta usando LangGraph con pasos encadenados."""
     graph = Graph()
 
+    print("GRAFO Creando nodos en el grafo...")
     graph.add_node("limpiar", RunnableLambda(limpiar_texto)) 
     graph.add_node("buscar", RunnableLambda(buscar_informacion)) 
     graph.add_node("responder", RunnableLambda(generar_respuesta)) 
 
+    print("GRAFO Configurando flujo del grafo...")
     graph.set_entry_point("limpiar") #output: pregunta limpia (Str)
     graph.add_edge("limpiar", "buscar") #output: diccionario con 'context', 'pregunta' y 'fuentes'
     graph.add_edge("buscar", "responder") #output: respuesta (Str)
 
     graph.set_finish_point("responder") #que la salida del grafo sea el nodo "responder"
 
+    print("GRAFO Compilando y ejecutando el grafo...")
     runnable = graph.compile()  # Compila el gráfico para ejecutarlo
     resultado = runnable.invoke(message)
     print(f"🔴 Resultado final del grafo: {resultado}")
