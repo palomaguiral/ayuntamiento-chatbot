@@ -38,6 +38,13 @@ poetry install
     * Crear y aplicar las migraciones
         alembic revision --autogenerate -m "Initial migration"
 
+Generar los archivos de migración.
+    * alembic revision --autogenerate -m "create chat_messages table"
+Aplica la migración
+    * alembic upgrade head
+
+
+
 
 
 ############

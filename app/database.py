@@ -30,7 +30,7 @@ Base = declarative_base()
 def run_migrations():
     """Ejecuta las migraciones con Alembic al iniciar la aplicación."""
     try:
-        alembic_cfg = Config("alembic.ini")
-        command.upgrade(alembic_cfg, "head")
+        alembic_cfg = Config("alembic.ini") #carga el archivo alembic.ini, con la configuración de Alembic (conexión a la base de datos y rutas de scripts de migración)
+        command.upgrade(alembic_cfg, "head") #Aplica todas las migraciones hasta la última versión disponible. / Si la base de datos está vacía, crea todas las tablas definidas en los modelos de SQLAlchemy
     except Exception as e:
         print(f"Error al ejecutar migraciones: {e}")
