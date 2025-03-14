@@ -83,7 +83,15 @@ docker-compose down
 
 ## Endpoints de la API
 
-### 1. Generar respuesta del chatbot
+### 1. Actualizar base de datos con nueva información
+
+**GET** `/actualizar/?url=<URL_DEL_AYUNTAMIENTO>`
+
+Es el primer paso que se debe hacer para descargar el contenido de la página web y ya después poder hacer solicitudes.
+Ejemplo URL_DEL_AYUNTAMIENTO: https://www.valencia.es
+Descarga y almacena contenido web relevante en la base de datos vectorial.
+
+### 2. Generar respuesta del chatbot
 
 **POST** `/chat/`
 
@@ -102,12 +110,6 @@ docker-compose down
     "response": "El Taller de Circo tiene lugar los Lunes a las 18:30h."
 }
 ```
-
-### 2. Actualizar base de datos con nueva información
-
-**GET** `/actualizar/?url=<URL_DEL_AYUNTAMIENTO>`
-
-Descarga y almacena contenido web relevante en la base de datos vectorial.
 
 ---
 
