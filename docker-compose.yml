@@ -6,9 +6,9 @@ services:
     container_name: ayuntamiento_db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: ayuntamientochatbot
+      POSTGRES_USER: postgres #El usuario de la base de datos es postgres.
+      POSTGRES_PASSWORD: postgres #La contraseña es postgres
+      POSTGRES_DB: ayuntamientochatbot #define el nombre de la base de datos cuando se inicializa PostgreSQL en el contenedor
     ports:
       - "5432:5432"
     volumes:
@@ -19,12 +19,14 @@ services:
     container_name: ayuntamiento_api
     restart: always
     depends_on:
-      - db
+      - db # Asegura que el contenedor de la base de datos esté activo antes de iniciar la API
     ports:
       - "8000:8000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL}  # URL de conexión a PostgreSQL ("db" es el nombre del servicio PostgreSQL en docker-compose.yml)
     env_file:
       - .env
-    command: ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["poetry", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 volumes:
   postgres_data:
