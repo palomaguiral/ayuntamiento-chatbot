@@ -9,6 +9,9 @@ from sqlalchemy import create_engine
 
 import os
 
+from app.models import Base #asegurarnos de que Alembic conoce los modelos de SQLAlchemy
+
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
@@ -22,7 +25,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -63,12 +66,19 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    
+    DATABASE_URL = os.getenv("DATABASE_URL")
+
+    if not DATABASE_URL:
+        raise ValueError("DATABASE_URL no está definida en el entorno")
+    
     connectable = create_engine(DATABASE_URL, poolclass=pool.NullPool) #Esto hará que Alembic use la variable de entorno DATABASE_URL en vez de la configuración del .ini.
 
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, 
+            target_metadata=target_metadata
         )
 
         with context.begin_transaction():
