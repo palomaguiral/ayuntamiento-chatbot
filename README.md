@@ -118,7 +118,6 @@ Descarga y almacena contenido web relevante en la base de datos vectorial.
 │   ├── main.py          # Punto de entrada de la API
 │   ├── crud.py          # Para interactuar con la base de datos y guardar las conversaciones
 │   ├── database.py      # Configuración de la base de datos
-│   ├── dependencies.py  # Dependencias comunes
 │   ├── langgraph_utils.py  # Generación de respuestas con LanChain y LangGraph
 │   ├── models.py        # Definición de modelos SQLAlchemy
 │   ├── schemas.py       # Esquemas de validación con Pydantic
