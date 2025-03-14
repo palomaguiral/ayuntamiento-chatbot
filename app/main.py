@@ -40,6 +40,11 @@ def get_db():
     finally:
         db.close()
 
+@app.get("/")
+def root():
+    """Muestra un mensaje indicando que el chatbot está en ejecución."""
+    return {"mensaje": "El chatbot está en ejecución. Documentación disponible en /docs/."}
+
 @app.get("/actualizar/")
 def actualizar_bd(url: str): #https://www.valencia.es
     """Obtiene contenido de una web y lo almacena en la base de datos vectorial."""

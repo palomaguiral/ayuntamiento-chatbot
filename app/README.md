@@ -17,9 +17,10 @@ Estos archivos manejan la recopilación de información, la indexación en el al
 - Usa el modelo **Mistral (Ollama)** para la generación de respuestas.
 
 ### `vector_store.py`
-- Utiliza **ChromaDB** para almacenar y buscar información relevante en formato de embeddings.
-- Usa el modelo de embeddings de **Hugging Face** para procesar y representar el contenido.
-- Permite almacenar nuevos documentos y realizar búsquedas semánticas eficientes.
+- Utiliza **ChromaDB** para almacenar y buscar información relevante en formato de embeddings. 
+- La base de datos se guarda en la carpeta /db.
+- Usa el modelo de embeddings de **Hugging Face** ("sentence-transformers/all-MiniLM-L6-v2") para procesar y representar el contenido. Este modelo acepta un número bajo de tokens, si quisiéramos podríamos cambiar de modelo.
+- Permite almacenar nuevos documentos (`almacenar_documentos(documentos)`)y realizar búsquedas semánticas eficientes (`buscar_respuesta(pregunta: str)`).
 
 ### `web_scraper.py`
 - Extrae información de páginas web del ayuntamiento mediante **web scraping**.
@@ -29,7 +30,7 @@ Estos archivos manejan la recopilación de información, la indexación en el al
 ### `schemas.py`
 - Define los esquemas de datos utilizando **Pydantic**.
 - Garantiza la validación de datos para la API.
-- Contiene las clases `ChatRequest` y `ChatResponse` que estructuran los datos de entrada y salida de la API.
+- Contiene las clases `ChatRequest` y `ChatResponse` que estructuran los datos de entrada y salida de la API, donde ambos deben ser de tipo string.
 
 ---
 
@@ -57,8 +58,7 @@ El archivo principal que gestiona las solicitudes HTTP y la lógica de la API.
 
 ### `main.py`
 - Define la API utilizando **FastAPI**.
-- Expone el endpoint `/chat/` que recibe mensajes y devuelve respuestas generadas por el chatbot.
-- Registra cada interacción en la base de datos utilizando **SQLAlchemy**.
-- Expone el endpoint `/actualizar/`, que permite extraer y almacenar nueva información de una página web en la base de datos vectorial.
+- Endpoint `/chat/`: recibe mensajes y devuelve respuestas generadas por el chatbot. Además, registra las conversaciones en la base de datos utilizando **SQLAlchemy**.
+- Endpoint `/actualizar/`: que permite extraer y almacenar nueva información de una página web en la base de datos vectorial.
 
 ---
